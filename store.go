@@ -12,8 +12,9 @@ func newNotes() *Notes {
 	}
 }
 
-func (n *Notes) Append(newNote Note) {
+func (n *Notes) Append(newNote Note) Note {
 	newNote.ID = n.nextID
 	n.data[n.nextID] = newNote
 	n.nextID++
+	return newNote
 }

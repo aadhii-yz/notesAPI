@@ -19,7 +19,7 @@ func main() {
 	router.DELETE("/notes/:id", HandleDeleteNoteByID)
 
 	fmt.Println("Server Listening on http://localhost:2222")
-	if err := http.ListenAndServe(":2222", nil); err != nil {
+	if err := http.ListenAndServe(":2222", router); err != nil {
 		log.Fatal(err)
 	}
 }
