@@ -8,7 +8,17 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+// GET /notes
 func HandleGetNotes(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	outputStr := "Notes {\n"
+	for _, value := range Store.data {
+		jsonStr, _ := json.MarshalIndent(value, string(value.ID), "	")
+		outputStr = fmt.Sprintf("%s\n%s\n", outputStr, jsonStr)
+	}
+	outputStr = fmt.Sprintf("%s\n}", outputStr)
+
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprint(w, outputStr)
 }
 
 func HandleGetNoteByID(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
@@ -26,7 +36,9 @@ func HandlePostNote(w http.ResponseWriter, r *http.Request, params httprouter.Pa
 	}
 
 	note = Store.Append(note)
-	fmt.Fprintf(w, "Request Recived: %v", note)
+	w.WriteHeader(http.StatusCreated)
+	jsonStr, _ := json.MarshalIndent(note, "", "	")
+	fmt.Fprintf(w, "Request Recived: %s", jsonStr)
 }
 
 func HandlePutNoteByID(w http.ResponseWriter, r *http.Request, params httprouter.Params) {

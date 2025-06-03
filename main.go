@@ -8,6 +8,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+// In-Memory database for development :
 var Store = newNotes()
 
 func main() {
